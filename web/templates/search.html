@@ -1,0 +1,11 @@
+{{ define "content" }}
+<h1>Search Filmmakers</h1>
+
+<form hx-get="/search" hx-target="#results" hx-swap="innerHTML">
+    <input type="text" name="q" placeholder="Type a name..." />
+    <button type="submit">Search</button>
+</form>
+
+<div id="results"></div>
+{{ end }}
+

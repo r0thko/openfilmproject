@@ -1,0 +1,20 @@
+{{ range . }}
+<div style="margin-bottom: 1.5rem; display: flex; align-items: center;">
+    {{ if .ProfilePath }}
+        <img src="https://image.tmdb.org/t/p/w92{{ .ProfilePath }}" alt="{{ .Name }}" style="border-radius: 4px; margin-right: 1rem;" />
+    {{ else }}
+        <div style="width: 92px; height: 138px; background-color: #ccc; border-radius: 4px; margin-right: 1rem; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #555;">
+            No Image
+        </div>
+    {{ end }}
+    <div>
+        <a href="/filmmaker/{{ .ID }}">
+            <strong>{{ .Name }}</strong>
+        </a><br/>
+        TMDB ID: {{ .ID }}
+    </div>
+</div>
+{{ else }}
+<p>No results found.</p>
+{{ end }}
+
