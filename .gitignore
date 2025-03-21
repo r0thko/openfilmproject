@@ -1,0 +1,18 @@
+*.out
+
+# Build
+bin/
+dist/
+
+# Go stuff
+/go.sum
+/go.mod
+*.test
+
+# Env
+.env
+
+# IDEs
+.vscode/
+.idea/
+
