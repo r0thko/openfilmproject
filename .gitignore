@@ -1,18 +1,23 @@
+# Binary outputs
 *.out
-
-# Build
+*.test
+build/
 bin/
 dist/
 
-# Go stuff
-/go.sum
-/go.mod
-*.test
-
-# Env
-.env
-
-# IDEs
+# Editor/IDE stuff
+*.swp
+*.swo
+*~
 .vscode/
 .idea/
+
+# Env and config
+.env
+
+# Database (for SQLite or test DBs)
+*.db
+
+
+
 
