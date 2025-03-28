@@ -1,25 +1,13 @@
-{{ define "filmmaker" }}
-<h1>{{ .Person.Name }}</h1>
+{{ define "content" }}
+<h1>{{ .NameEn }}</h1>
 
-{{ if .Person.ProfilePath }}
-    <img src="https://image.tmdb.org/t/p/w185{{ .Person.ProfilePath }}" alt="{{ .Person.Name }}" />
+{{ if .ProfileImage }}
+<img src="https://image.tmdb.org/t/p/w300{{.ProfileImage}}" alt="{{.NameEn}}" />
 {{ end }}
 
-<p>{{ .Person.Biography }}</p>
-
-<h2>Books from Open Library</h2>
-<ul>
-    {{ range .Books }}
-        <li>
-            <strong>{{ .Title }}</strong><br/>
-            {{ if .AuthorName }}
-                <em>by {{ index .AuthorName 0 }}</em><br/>
-            {{ end }}
-            <a href="https://openlibrary.org{{ .Key }}" target="_blank">View on Open Library</a>
-        </li>
-    {{ else }}
-        <li>No books found.</li>
-    {{ end }}
-</ul>
+<p>{{ .Bio }}</p>
 {{ end }}
 
+<h1>{{ .NameEn }}</h1>
+<img src="https://image.tmdb.org/t/p/w300{{.ProfileImage}}" />
+<p>{{ .Bio }}</p>

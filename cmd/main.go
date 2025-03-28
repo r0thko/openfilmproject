@@ -1,21 +1,33 @@
 package main
 
 import (
+	"database/sql"
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
+	_ "github.com/mattn/go-sqlite3"
+	"github.com/r0thko/openfilmproject/internal/handlers"
 	"html/template"
 	"log"
 	"net/http"
 
-	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
-
 	"github.com/r0thko/openfilmproject/internal/tmdb"
-	"github.com/r0thko/openfilmproject/internal/openlib"
 )
 
 func main() {
 	godotenv.Load()
 
 	router := gin.Default()
+
+	db, err := sql.Open("sqlite3", "./openfilmproject.db")
+	if err != nil {
+		log.Fatal("Failed to connect to database:", err)
+	}
+	defer db.Close()
+
+	router.Use(func(c *gin.Context) {
+		c.Set("db", db)
+		c.Next()
+	})
 
 	// Load templates
 	tmpl := template.Must(template.ParseGlob("web/templates/*.html"))
@@ -38,31 +50,7 @@ func main() {
 		c.HTML(http.StatusOK, "results.html", results)
 	})
 
-	router.GET("/filmmaker/:id", func(c *gin.Context) {
-		tmdbID := c.Param("id")
-
-		// Get TMDB person details
-		person, err := tmdb.GetPersonDetails(tmdbID)
-		if err != nil {
-			log.Println("TMDB error:", err)
-			c.String(500, "Failed to get filmmaker")
-			return
-		}
-	
-		// Search books from Open Library
-		books, err := openlib.SearchBooksByAuthor(person.Name)
-		if err != nil {
-			log.Println("Open Library error:", err)
-			c.String(500, "Failed to get books")
-			return
-		}
-	
-		c.HTML(http.StatusOK, "filmmaker", gin.H{
-			"Person": person,
-			"Books":  books,
-		})
-	})
+	router.GET("/filmmaker/:id", handlers.ShowFilmmaker)
 
 	log.Fatal(router.Run(":8080"))
 }
-
